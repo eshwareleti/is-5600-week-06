@@ -1,19 +1,26 @@
-{
-  "name": "is-5600-week-06",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest"
+[
+  {
+    "id": 1,
+    "name": "Gaming Laptop",
+    "price": 1299,
+    "category": "Electronics",
+    "description": "High-performance laptop for gaming.",
+    "tags": ["laptop", "gaming", "electronics"]
   },
-  "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+  {
+    "id": 2,
+    "name": "Smartphone Pro",
+    "price": 899,
+    "category": "Electronics",
+    "description": "Top-tier smartphone.",
+    "tags": ["phone", "mobile", "electronics"]
   },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.0.0",
-    "vite": "^5.0.0"
+  {
+    "id": 3,
+    "name": "Wireless Headphones",
+    "price": 199,
+    "category": "Audio",
+    "description": "Noise-cancelling headphones.",
+    "tags": ["audio", "wireless", "music"]
   }
-}
+]

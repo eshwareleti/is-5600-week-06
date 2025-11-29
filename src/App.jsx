@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import products from "./data/products.json";
+import rawProducts from "./data/products.json";
+
+// 🔹 Normalize the imported data so it's ALWAYS an array
+//    - If products.json is an array:        [ {...}, {...} ]
+//    - If it's { "products": [ ... ] }:     use .products
+//    - If it's { "data": [ ... ] }:         use .data
+const PRODUCTS = Array.isArray(rawProducts)
+  ? rawProducts
+  : rawProducts.products || rawProducts.data || [];
 
 const PAGE_SIZE = 10; // how many products per page
 
@@ -13,20 +21,21 @@ function App() {
   // tag search text
   const [tagQuery, setTagQuery] = useState("");
 
-  // filtered list based on tags
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  // filtered list based on tags (start with full list)
+  const [filteredProducts, setFilteredProducts] = useState(PRODUCTS);
 
   // when tagQuery changes, filter products and reset to page 1
   useEffect(() => {
     const q = tagQuery.trim().toLowerCase();
 
     if (!q) {
-      setFilteredProducts(products);
+      // No query → show all products
+      setFilteredProducts(PRODUCTS);
       setPage(1);
       return;
     }
 
-    const next = products.filter((p) =>
+    const next = PRODUCTS.filter((p) =>
       (p.tags || []).some((tag) =>
         String(tag).toLowerCase().includes(q)
       )
@@ -36,16 +45,13 @@ function App() {
     setPage(1);
   }, [tagQuery]);
 
-  const totalPages = Math.max(
-    1,
-    Math.ceil(filteredProducts.length / PAGE_SIZE)
-  );
+  // 🔹 Safety: make sure we always work with an array
+  const list = Array.isArray(filteredProducts) ? filteredProducts : [];
+
+  const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
 
   const start = (page - 1) * PAGE_SIZE;
-  const currentProducts = filteredProducts.slice(
-    start,
-    start + PAGE_SIZE
-  );
+  const currentProducts = list.slice(start, start + PAGE_SIZE);
 
   const handlePrevPage = () => setPage((p) => Math.max(1, p - 1));
   const handleNextPage = () => setPage((p) => Math.min(totalPages, p + 1));
