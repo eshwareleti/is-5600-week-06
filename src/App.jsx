@@ -11,6 +11,7 @@ const PRODUCTS = Array.isArray(rawProducts)
 
 const PAGE_SIZE = 10; // how many products per page
 
+
 function App() {
   // current page for pagination
   const [page, setPage] = useState(1);
