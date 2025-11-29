@@ -7,13 +7,13 @@ function App() {
   // current page for pagination
   const [page, setPage] = useState(1);
 
-  // which product is selected for the single view (null = list view)
+  // selected product for single-page view
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // text used to filter by tags
+  // tag search text
   const [tagQuery, setTagQuery] = useState("");
 
-  // all products after filtering by tag
+  // filtered list based on tags
   const [filteredProducts, setFilteredProducts] = useState(products);
 
   // when tagQuery changes, filter products and reset to page 1
@@ -47,26 +47,13 @@ function App() {
     start + PAGE_SIZE
   );
 
-  // ==== HANDLERS ==================================================
+  const handlePrevPage = () => setPage((p) => Math.max(1, p - 1));
+  const handleNextPage = () => setPage((p) => Math.min(totalPages, p + 1));
 
-  const handleSelectProduct = (product) => {
-    setSelectedProduct(product);
-  };
+  const handleSelectProduct = (product) => setSelectedProduct(product);
+  const handleBackToList = () => setSelectedProduct(null);
 
-  const handleBackToList = () => {
-    setSelectedProduct(null);
-  };
-
-  const handlePrevPage = () => {
-    setPage((p) => Math.max(1, p - 1));
-  };
-
-  const handleNextPage = () => {
-    setPage((p) => Math.min(totalPages, p + 1));
-  };
-
-  // ==== SINGLE PRODUCT VIEW ======================================
-
+  // ============== SINGLE PRODUCT VIEW =====================
   if (selectedProduct) {
     const p = selectedProduct;
 
@@ -79,7 +66,7 @@ function App() {
           ⬅ Back to products
         </button>
 
-        <div className="pa3 ba b--light-gray br2">
+        <div className="pa3 ba b--light-gray br2 bg-white shadow-1">
           <h1 className="f3 mb2">{p.name}</h1>
           <p className="f4 b dark-green mb3">${p.price}</p>
 
@@ -109,8 +96,7 @@ function App() {
     );
   }
 
-  // ==== LIST VIEW WITH PAGINATION ================================
-
+  // ============== LIST VIEW WITH PAGINATION ===============
   return (
     <div className="mw8 center pa4">
       <h1 className="tc f2 mb4">Products</h1>
@@ -131,11 +117,11 @@ function App() {
       {currentProducts.length === 0 ? (
         <p className="tc mid-gray">No products match that tag.</p>
       ) : (
-        <div className="grid">
+        <div className="flex flex-wrap">
           {currentProducts.map((p) => (
             <div
               key={p.id}
-              className="ba b--light-gray br2 pa3 ma2 bg-white shadow-1"
+              className="ba b--light-gray br2 pa3 ma2 bg-white shadow-1 w-30"
             >
               <h2 className="f4 mb2">{p.name}</h2>
               <p className="mb2 dark-green b">${p.price}</p>
